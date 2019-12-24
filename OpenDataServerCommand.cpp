@@ -35,6 +35,7 @@ int OpenDataServerCommand::execute(string str) {
 }
 
 int OpenDataServerCommand::RunServer(int PORT) {
+    PORT = 5404;
     string *XML_Array = makeXmlArray();
     //create socket
     int socketfd = socket(AF_INET, SOCK_STREAM, 0);
