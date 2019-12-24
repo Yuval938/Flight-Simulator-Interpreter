@@ -14,6 +14,7 @@
 #include "SleepCommand.h"
 #include "SleepCommand.cpp"
 #include "globals.h"
+#include "globals.cpp"
 
 using namespace std;
 
@@ -33,7 +34,6 @@ int min(int a, int b) {
 }
 
 int executeFromContent(std::vector<std::string> content, int position, map<string, Command *> CommandsMap) {
-    cout<<"test"<<endl;
     bool gotCurlyBraces = false;
     int pos;
     int posOfRoundBrace = content[position].find("(");
