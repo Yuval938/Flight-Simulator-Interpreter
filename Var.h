@@ -9,7 +9,7 @@ using namespace std;
 class Var {
     string type;              //get or set (<- || ->)
     string sim;
-    double value = 0;
+    double value = -1;
 public:
     virtual ~Var() {};
     Var(){};

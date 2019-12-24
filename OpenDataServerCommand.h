@@ -23,7 +23,7 @@ public:
 
     int RunServer(int PORT);
 
-    string *makeXmlArray();
+    static string *makeXmlArray();
 };
 
 

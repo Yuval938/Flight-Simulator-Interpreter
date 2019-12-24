@@ -7,10 +7,12 @@
 #include "OpenDataServerCommand.h"
 #include "globals.h"
 
-double *convertToDoubleArray(char *buffer) {
+vector<double> convertToDoubleArray(char *buffer) {
     string valuesAsString(buffer);
-    double valuesInDouble[36];
+    //double valuesInDouble[36];
+    vector<double> valuesInDouble;
     // stringstream class check1
+    /*
     stringstream check1(valuesAsString);
     string value;
 
@@ -18,7 +20,21 @@ double *convertToDoubleArray(char *buffer) {
     int i = 0;
     while (getline(check1, value, ',')) {
         valuesInDouble[i] = atof(value.c_str());
-        i++;
+        if (i < 35) {
+            i++;
+        }
+    }
+*/
+    string::size_type i = 0;
+    string::size_type j = valuesAsString.find(',');
+
+    while (j != string::npos) {
+        valuesInDouble.push_back(atof(valuesAsString.substr(i, j-i).c_str()));
+        i = ++j;
+        j = valuesAsString.find(',', j);
+
+        if (j == string::npos)
+            valuesInDouble.push_back(atof(valuesAsString.substr(i, valuesAsString.length()).c_str()));
     }
 
     return valuesInDouble;
@@ -35,8 +51,45 @@ int OpenDataServerCommand::execute(string str) {
 }
 
 int OpenDataServerCommand::RunServer(int PORT) {
-    PORT = 5404;
-    string *XML_Array = makeXmlArray();
+
+  //  not working inside the func for some reason -- FIX IT
+    string XML_Array[36];
+    XML_Array[0] = "/instrumentation/airspeed-indicator/indicated-speed-kt";
+    XML_Array[1] = "/sim/time/warp";
+    XML_Array[2] = "/controls/switches/magnetos";
+    XML_Array[3] = "/instrumentation/heading-indicator/offset-deg";
+    XML_Array[4] = "/instrumentation/altimeter/indicated-altitude-ft";
+    XML_Array[5] = "/instrumentation/altimeter/pressure-alt-ft";
+    XML_Array[6] = "/instrumentation/attitude-indicator/indicated-pitch-deg";
+    XML_Array[7] = "/instrumentation/attitude-indicator/indicated-roll-deg";
+    XML_Array[8] = "/instrumentation/attitude-indicator/internal-pitch-deg";
+    XML_Array[9] = "/instrumentation/attitude-indicator/internal-roll-deg";
+    XML_Array[10] = "/instrumentation/encoder/indicated-altitude-ft";
+    XML_Array[11] = "/instrumentation/encoder/pressure-alt-ft";
+    XML_Array[12] = "/instrumentation/gps/indicated-altitude-ft";
+    XML_Array[13] = "/instrumentation/gps/indicated-ground-speed-kt";
+    XML_Array[14] = "/instrumentation/gps/indicated-vertical-speed";
+    XML_Array[15] = "/instrumentation/heading-indicator/indicated-heading-deg";
+    XML_Array[16] = "/instrumentation/magnetic-compass/indicated-heading-deg";
+    XML_Array[17] = "/instrumentation/slip-skid-ball/indicated-slip-skid";
+    XML_Array[18] = "/instrumentation/turn-indicator/indicated-turn-rate";
+    XML_Array[19] = "/instrumentation/vertical-speed-indicator/indicated-speed-fpm";
+    XML_Array[20] = "/controls/flight/aileron";
+    XML_Array[21] = "/controls/flight/elevator";
+    XML_Array[22] = "/controls/flight/rudder";
+    XML_Array[23] = "/controls/flight/flaps";
+    XML_Array[24] = "/controls/engines/engine/throttle";
+    XML_Array[25] = "/controls/engines/current-engine/throttle";
+    XML_Array[26] = "/controls/switches/master-avionics";
+    XML_Array[27] = "/controls/switches/starter";
+    XML_Array[28] = "/engines/active-engine/auto-start";
+    XML_Array[29] = "/controls/flight/speedbrake";
+    XML_Array[30] = "/sim/model/c172p/brake-parking";
+    XML_Array[31] = "/controls/engines/engine/primer";
+    XML_Array[32] = "/controls/engines/current-engine/mixture";
+    XML_Array[33] = "/controls/switches/master-bat";
+    XML_Array[34] = "/controls/switches/master-alt";
+    XML_Array[35] = "/engines/engine/rpm";
     //create socket
     int socketfd = socket(AF_INET, SOCK_STREAM, 0);
     if (socketfd == -1) {
@@ -81,11 +134,11 @@ int OpenDataServerCommand::RunServer(int PORT) {
     close(socketfd); //closing the listening socket
 
     //reading from client
-    char buffer[500] = {0};
+    char buffer[324] = {0};
     int i = 0;
-    double *values;
+    vector<double> values;
     while (i < 8) {
-        int valread = read(client_socket, buffer, 1024);
+        int valread = read(client_socket, buffer, 324);
 
         values = convertToDoubleArray(buffer);
 
