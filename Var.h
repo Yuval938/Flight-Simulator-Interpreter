@@ -24,6 +24,11 @@ public:
     string getType(){
         return this->type;
     }
+
+    double getValue(){
+        return this->value;
+    }
+
     void setValue(double newVal){
         this->value=newVal;
     }

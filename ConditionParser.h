@@ -9,15 +9,8 @@
 #include "Command.h"
 
 class ConditionParser : public Command {
-
-protected:
-
-    map<string, Command *> CommandList;
-
 public:
-    ConditionParser(map<string, Command *> CommandList1){
-        this->CommandList=CommandList1;
-    }
+    ConditionParser() {}
 
 };
 

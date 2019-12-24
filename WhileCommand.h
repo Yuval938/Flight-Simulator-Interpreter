@@ -11,8 +11,9 @@
 using namespace std;
 class WhileCommand : public ConditionParser{
 public:
-    WhileCommand(map<string, Command *> commandList1) : ConditionParser(commandList1) {}
+    WhileCommand() {}
     int execute(string str);
+
 };
 
 
