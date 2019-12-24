@@ -33,6 +33,7 @@ int min(int a, int b) {
 }
 
 int executeFromContent(std::vector<std::string> content, int position, map<string, Command *> CommandsMap) {
+    cout<<"test"<<endl;
     bool gotCurlyBraces = false;
     int pos;
     int posOfRoundBrace = content[position].find("(");
