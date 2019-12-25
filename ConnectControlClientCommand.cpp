@@ -10,7 +10,7 @@ int ConnectControlClientCommand::execute(string str) {
     string ip = str.substr(str.find_first_of('"'), str.find_last_of('"'));
     string port; // need to find port
 
-    //for some reason i cant break the string to a port and an ip -FIX IT
+    //for some reason i cant break the string to a port and an ip -FIX I
     threads[1] = thread(&ConnectControlClientCommand::RunClient, this, "127.0.0.1", 5402);
 
 

@@ -66,25 +66,23 @@ int WhileCommand::execute(string str) {
 
     int contentSize = content.size();
     if (operand.compare("<=") == 0) {
-        while (varValue <= number) {
+        while (SymbolTable[var].getValue() <= number) {
             i = 0;
             while (i < contentSize) {
                 i = executeConditionParser(content, i, CommandList) + 1;
                 i++;
-                varValue += 150; //just for check
             }
         }
     } else if (operand.compare("<") == 0) {
-        while (varValue < number) {
+        while (SymbolTable[var].getValue() < number) {
             i = 0;
             while (i < contentSize) {
                 i = executeConditionParser(content, i, CommandList) + 1;
                 i++;
-                varValue += 150; //just for check
             }
         }
     } else if (operand.compare(">=") == 0) {
-        while (varValue >= number) {
+        while (SymbolTable[var].getValue() >= number) {
             i = 0;
             while (i < contentSize) {
                 i = executeConditionParser(content, i, CommandList) + 1;
@@ -92,7 +90,7 @@ int WhileCommand::execute(string str) {
             }
         }
     } else if (operand.compare(">") == 0) {
-        while (varValue > number) {
+        while (SymbolTable[var].getValue() > number) {
             i = 0;
             while (i < contentSize) {
                 i = executeConditionParser(content, i, CommandList) + 1;
@@ -100,7 +98,7 @@ int WhileCommand::execute(string str) {
             }
         }
     } else if (operand.compare("==") == 0) {
-        while (varValue == number) {
+        while (SymbolTable[var].getValue() == number) {
             i = 0;
             while (i < contentSize) {
                 i = executeConditionParser(content, i, CommandList) + 1;
