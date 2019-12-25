@@ -12,6 +12,7 @@ class Var {
     string type;              //get or set (<- || ->)
     string sim;
     double value;
+
 public:
     virtual ~Var() {};
     Var(){};

@@ -17,6 +17,7 @@
 #include "globals.cpp"
 #include "IfCommand.h"
 #include "IfCommand.cpp"
+#include "IfCommand.h"
 
 using namespace std;
 
@@ -89,6 +90,8 @@ void updateVarValue(string var, string str) {
         string set = SymbolTable[var].getType()+" "+SymbolTable[var].getSim()+" "+to_string(SymbolTable[var].getValue())+"\r\n";
         SetCommands.push(set);
     }
+
+
 
 }
 

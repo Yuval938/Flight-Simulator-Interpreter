@@ -19,5 +19,6 @@ int PrintCommand::execute(string str) {
         cout <<  str  << " = " << SymbolTable[str].getValue() << endl;
         sleep(0.5);  //prints too fast
 
+
     }
 }
