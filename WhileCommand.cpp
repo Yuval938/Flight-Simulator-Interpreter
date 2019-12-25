@@ -7,6 +7,7 @@
 
 
 int WhileCommand::execute(string str) {
+    cout << "WHILE_COMMAND: " << endl;
     // we want to split each line
     std::vector<std::string> content;
     replaceAll(str, "\t", "");

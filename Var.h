@@ -11,7 +11,7 @@ using namespace std;
 class Var {
     string type;              //get or set (<- || ->)
     string sim;
-    double value = -1;
+    double value = 3;
 public:
     virtual ~Var() {};
     Var(){};
