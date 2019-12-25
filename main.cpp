@@ -14,6 +14,7 @@
 #include "SleepCommand.h"
 #include "SleepCommand.cpp"
 #include "globals.h"
+#include "IfCommand.h"
 
 using namespace std;
 
@@ -96,6 +97,7 @@ int main() {
 void MakeCommandMap() {
     CommandList["var"] = new DefineVarCommand();
     CommandList["while"] = new WhileCommand();
+    CommandList["if"] = new IfCommand();
     CommandList["openDataServer"] = new OpenDataServerCommand();
     CommandList["connectControlClient"] = new ConnectControlClientCommand();
     CommandList["Print"] = new PrintCommand();

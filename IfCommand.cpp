@@ -1,12 +1,13 @@
 //
-// Created by yuval on 21/12/2019.
+// Created by valdman40 on 12/25/19.
 //
 
-#include "WhileCommand.h"
+#include <algorithm>
+#include "IfCommand.h"
 #include "globals.h"
 
 
-int WhileCommand::execute(string str) {
+int IfCommand::execute(string str) {
     // we want to split each line
     std::vector<std::string> content;
     replaceAll(str, "\t", "");
@@ -65,7 +66,7 @@ int WhileCommand::execute(string str) {
 
     int contentSize = content.size();
     if (operand.compare("<=") == 0) {
-        while (varValue <= number) {
+        if (varValue <= number) {
             i = 0;
             while (i < contentSize) {
                 i = executeConditionParser(content, i, CommandList) + 1;
@@ -74,7 +75,7 @@ int WhileCommand::execute(string str) {
             }
         }
     } else if (operand.compare("<") == 0) {
-        while (varValue < number) {
+        if (varValue < number) {
             i = 0;
             while (i < contentSize) {
                 i = executeConditionParser(content, i, CommandList) + 1;
@@ -83,7 +84,7 @@ int WhileCommand::execute(string str) {
             }
         }
     } else if (operand.compare(">=") == 0) {
-        while (varValue >= number) {
+        if (varValue >= number) {
             i = 0;
             while (i < contentSize) {
                 i = executeConditionParser(content, i, CommandList) + 1;
@@ -91,7 +92,7 @@ int WhileCommand::execute(string str) {
             }
         }
     } else if (operand.compare(">") == 0) {
-        while (varValue > number) {
+        if (varValue > number) {
             i = 0;
             while (i < contentSize) {
                 i = executeConditionParser(content, i, CommandList) + 1;
@@ -99,7 +100,7 @@ int WhileCommand::execute(string str) {
             }
         }
     } else if (operand.compare("==") == 0) {
-        while (varValue == number) {
+        if (varValue == number) {
             i = 0;
             while (i < contentSize) {
                 i = executeConditionParser(content, i, CommandList) + 1;
