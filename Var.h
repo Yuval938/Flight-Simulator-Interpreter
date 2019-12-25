@@ -4,12 +4,14 @@
 
 #ifndef EX3_VAR_H
 #define EX3_VAR_H
+#include <fstream>
+
 using namespace std;
 
 class Var {
     string type;              //get or set (<- || ->)
     string sim;
-    double value = -1;
+    double value;
 public:
     virtual ~Var() {};
     Var(){};

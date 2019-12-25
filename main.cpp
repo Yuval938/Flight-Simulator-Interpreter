@@ -14,6 +14,9 @@
 #include "SleepCommand.h"
 #include "SleepCommand.cpp"
 #include "globals.h"
+#include "globals.cpp"
+#include "IfCommand.h"
+#include "IfCommand.cpp"
 
 using namespace std;
 
@@ -24,6 +27,8 @@ int executeFromContent(std::vector<std::string> content, int position, map<strin
 bool ignoreChars(char ch);
 
 void MakeCommandMap();
+
+void updateVarValue(string basicString, string basicString1);
 
 int min(int a, int b) {
     if (a < b) {
@@ -64,10 +69,27 @@ int executeFromContent(std::vector<std::string> content, int position, map<strin
     if (c != NULL) {
         c->execute(ExecuteInfo);
     } else { // for now, we assume that if it's not a command, it's probably a defined var
-        cout << "the var \"" << command << "\"" << " is defined, need to update it" << endl;
+        cout << "updating \"" << command << "\"" << endl;
+        updateVarValue(command, ExecuteInfo);
     }
 
     return position;
+}
+
+void updateVarValue(string var, string str) {
+
+    int numPos = str.find("=") + 2;
+    str=str.substr(numPos);
+    int pos = str.find(" ");
+    str = str.substr(0,pos);
+    double newValue = std::stod(str);
+    SymbolTable[var].setValue(newValue);
+    //if we need to set a value in the game we will alert the client by pushing a command to the queue
+    if(SymbolTable[var].getType().compare("set")==0){
+        string set = SymbolTable[var].getType()+" "+SymbolTable[var].getSim()+" "+to_string(SymbolTable[var].getValue())+"\r\n";
+        SetCommands.push(set);
+    }
+
 }
 
 int main() {
@@ -89,6 +111,7 @@ int main() {
         i = executeFromContent(content, i, CommandList) + 1;
     }
     threads[0].join();
+    threads[1].join();
 
     return 0;
 }
@@ -96,6 +119,7 @@ int main() {
 void MakeCommandMap() {
     CommandList["var"] = new DefineVarCommand();
     CommandList["while"] = new WhileCommand();
+    CommandList["if"] = new IfCommand();
     CommandList["openDataServer"] = new OpenDataServerCommand();
     CommandList["connectControlClient"] = new ConnectControlClientCommand();
     CommandList["Print"] = new PrintCommand();

@@ -13,6 +13,8 @@
 #include <netinet/in.h>
 
 class OpenDataServerCommand : public Command {
+protected:
+    bool isConnected = false;
 public:
     virtual ~OpenDataServerCommand() {}
 
@@ -23,7 +25,7 @@ public:
 
     int RunServer(int PORT);
 
-    static string *makeXmlArray();
+    vector<string> makeXmlArray();
 };
 
 

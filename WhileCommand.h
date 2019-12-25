@@ -4,7 +4,6 @@
 
 #ifndef EX3_WHILECOMMAND_H
 #define EX3_WHILECOMMAND_H
-#include <map>
 #include "ConditionParser.h"
 #include "Command.h"
 

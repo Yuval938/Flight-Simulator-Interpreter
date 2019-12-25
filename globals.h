@@ -10,10 +10,12 @@
 #include <map>
 #include "Command.h"
 #include "Var.h"
+#include <queue>
 
 extern map<string, Var> SymbolTable;
 extern map<string, Command *> CommandList;
 extern thread threads[2];
+extern queue<string> SetCommands;
 
 
 

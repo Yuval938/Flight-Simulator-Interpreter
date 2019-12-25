@@ -5,6 +5,11 @@
 #ifndef EX3_CONNECTCONTROLCLIENTCOMMAND_H
 #define EX3_CONNECTCONTROLCLIENTCOMMAND_H
 #include "Command.h"
+#include <sys/socket.h>
+#include <string>
+#include <unistd.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 class ConnectControlClientCommand:public Command {
 public:
     virtual ~ConnectControlClientCommand(){}
@@ -12,5 +17,6 @@ public:
     int execute(string str);
 
 
+    int RunClient(const char *ip, int port);
 };
 #endif //EX3_CONNECTCONTROLCLIENTCOMMAND_H
