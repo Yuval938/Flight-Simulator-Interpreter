@@ -24,14 +24,26 @@ int DefineVarCommand::execute(string str) {
     pos = sim.find("\"");
     sim = sim.substr(0, pos);
 
+    bool defineVarWithoutPath = false;
+    string var2 = "";
     string type = "error";
     if (arrow.compare("<-") == 0) {
         type = "get";
     } else if (arrow.compare("->") == 0) {
         type = "set";
+    } else if (arrow.compare("=") == 0) {
+        defineVarWithoutPath = true;
+        var2=sim;
+        type = "set";
     }
 
-    SymbolTable[var] = Var(type, sim);
+    if (!defineVarWithoutPath) {
+        SymbolTable[var] = Var(type, sim);
+    } else {
+        sim =""; // cause we dont have path
+        SymbolTable[var] = Var("set", sim);
+        SymbolTable[var].setValue(SymbolTable[var2].getValue());
+    }
 
     return 0;
 }

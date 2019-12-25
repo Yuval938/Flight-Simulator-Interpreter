@@ -26,6 +26,8 @@ bool ignoreChars(char ch);
 
 void MakeCommandMap();
 
+void updateVarValue(string basicString, string basicString1);
+
 int min(int a, int b) {
     if (a < b) {
         return a;
@@ -65,10 +67,22 @@ int executeFromContent(std::vector<std::string> content, int position, map<strin
     if (c != NULL) {
         c->execute(ExecuteInfo);
     } else { // for now, we assume that if it's not a command, it's probably a defined var
-        cout << "the var \"" << command << "\"" << " is defined, need to update it" << endl;
+        cout << "updating \"" << command << "\"" << endl;
+        updateVarValue(command, ExecuteInfo);
     }
 
     return position;
+}
+
+void updateVarValue(string var, string str) {
+
+    int numPos = str.find("=") + 2;
+    str=str.substr(numPos);
+    int pos = str.find(" ");
+    str = str.substr(0,pos);
+    int newValue = std::stoi(str);
+    SymbolTable[var].setValue(newValue);
+
 }
 
 int main() {
