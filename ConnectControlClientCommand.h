@@ -15,8 +15,6 @@ public:
     virtual ~ConnectControlClientCommand(){}
     ConnectControlClientCommand(){}
     int execute(string str);
-
-
-    int RunClient(const char *ip, int port);
+    int RunClient1(string ip, int PORT);
 };
 #endif //EX3_CONNECTCONTROLCLIENTCOMMAND_H

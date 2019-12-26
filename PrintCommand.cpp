@@ -17,7 +17,7 @@ int PrintCommand::execute(string str) {
     } else {
         // found - print var and it's value
         cout <<  str  << " = " << SymbolTable[str].getValue() << endl;
- //       sleep(0.5);  //prints too fast
+        sleep(0.5);  //prints too fast
 
 
     }

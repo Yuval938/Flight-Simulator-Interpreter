@@ -33,7 +33,7 @@ int OpenDataServerCommand::execute(string str) {
     threads[0] = thread(&OpenDataServerCommand::RunServer, this, port);
 
     while (isConnected == false) {
-        sleep(0.5);
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
     }
 
 
