@@ -69,7 +69,6 @@ int WhileCommand::execute(string str) {
             i = 0;
             while (i < contentSize) {
                 i = executeFromContent(content, i, CommandList) + 1;
-                i++;
             }
         }
     } else if (operand.compare("<") == 0) {
@@ -77,7 +76,6 @@ int WhileCommand::execute(string str) {
             i = 0;
             while (i < contentSize) {
                 i = executeFromContent(content, i, CommandList) + 1;
-                i++;
             }
         }
     } else if (operand.compare(">=") == 0) {
@@ -85,7 +83,6 @@ int WhileCommand::execute(string str) {
             i = 0;
             while (i < contentSize) {
                 i = executeFromContent(content, i, CommandList) + 1;
-                i++;
             }
         }
     } else if (operand.compare(">") == 0) {
@@ -93,7 +90,6 @@ int WhileCommand::execute(string str) {
             i = 0;
             while (i < contentSize) {
                 i = executeFromContent(content, i, CommandList) + 1;
-                i++;
             }
         }
     } else if (operand.compare("==") == 0) {
@@ -101,7 +97,6 @@ int WhileCommand::execute(string str) {
             i = 0;
             while (i < contentSize) {
                 i = executeFromContent(content, i, CommandList) + 1;
-                i++;
             }
         }
     } else if (operand.compare("!=") == 0) {
@@ -109,7 +104,6 @@ int WhileCommand::execute(string str) {
             i = 0;
             while (i < contentSize) {
                 i = executeFromContent(content, i, CommandList) + 1;
-                i++;
             }
         }
     }

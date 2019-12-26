@@ -15,6 +15,7 @@ public:
     virtual ~ConnectControlClientCommand(){}
     ConnectControlClientCommand(){}
     int execute(string str);
+    bool ClientisConnected=false;
 
 
     int RunClient(const char *ip, int port);

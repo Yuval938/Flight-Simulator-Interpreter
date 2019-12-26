@@ -13,6 +13,10 @@ int ConnectControlClientCommand::execute(string str) {
     //for some reason i cant break the string to a port and an ip -FIX I
     threads[1] = thread(&ConnectControlClientCommand::RunClient, this, "127.0.0.1", 5402);
 
+    while (ClientisConnected == false) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    }
+
 
 }
 
@@ -40,6 +44,7 @@ int ConnectControlClientCommand::RunClient(const char *ip, int PORT) {
         return -2;
     } else {
         std::cout << "Client is now connected to server" << std::endl;
+        ClientisConnected =true;
     }
 
     //if here we made a connection
@@ -55,10 +60,14 @@ int ConnectControlClientCommand::RunClient(const char *ip, int PORT) {
             } else {
 
                 SetCommands.pop();
+                char buffer[1024] = {0};
+                int valread = read(client_socket, buffer, 1024);
+                std::cout << buffer << std::endl;
 
             }
 
         }
+        sleep(0.1);
     }
     char buffer[1024] = {0};
     int valread = read(client_socket, buffer, 1024);

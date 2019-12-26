@@ -16,13 +16,13 @@
 extern map<string, Var> SymbolTable;
 extern map<string, Command *> CommandList;
 extern thread threads[2];
-extern queue <string> SetCommands;
+extern queue<string> SetCommands;
 
 Interpreter *makeInterpeter();
 
-std::string ReplaceAll(std::string str, const std::string& from, const std::string& to) {
+std::string ReplaceAll(std::string str, const std::string &from, const std::string &to) {
     size_t start_pos = 0;
-    while((start_pos = str.find(from, start_pos)) != std::string::npos) {
+    while ((start_pos = str.find(from, start_pos)) != std::string::npos) {
         str.replace(start_pos, from.length(), to);
         start_pos += to.length(); // Handles case where 'to' is a substring of 'from'
     }
@@ -41,21 +41,24 @@ void updateVarValue(string var, string str) {
     Expression *e;
     int posOfEq = str.find('=') + 2;
     int posOfEndl = str.find("endl ");
-    str = str.substr(posOfEq, posOfEndl - posOfEq -1);
+    str = str.substr(posOfEq, posOfEndl - posOfEq - 1);
     std::string::iterator end_pos = std::remove(str.begin(), str.end(), ' ');
     str.erase(end_pos, str.end());
     int tt = 3;
-    try{
-        e= in->interpret(str);
+    try {
+        e = in->interpret(str);
         SymbolTable[var].setValue(e->calculate());
-    } catch(const std::exception&) {
+        string set = SymbolTable[var].getType() + " " + SymbolTable[var].getSim() + " " +
+                     to_string(SymbolTable[var].getValue()) + "\r\n";
+        SetCommands.push(set);
+    } catch (const std::exception &) {
         cout << "error at updateVarValue" << endl;
     }
 }
 
 Interpreter *makeInterpeter() {
     Interpreter *i = new Interpreter();
-    for(auto item: SymbolTable){
+    for (auto item: SymbolTable) {
         i->setVariables(item.first + "=" + std::to_string(item.second.getValue()));
     }
 
@@ -93,8 +96,10 @@ int executeFromContent(std::vector<std::string> content, int position, map<strin
     if (c != NULL) {
         c->execute(ExecuteInfo);
     } else { // for now, we assume that if it's not a command, it's probably a defined var
+        if(command.compare("}")!=0) {
         cout << "updating \"" << command << "\"" << endl;
-        updateVarValue(command, ExecuteInfo);
+            updateVarValue(command, ExecuteInfo);
+        }
     }
 
     return position;

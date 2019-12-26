@@ -105,13 +105,13 @@ int OpenDataServerCommand::RunServer(int PORT) {
                 } else if (it->second.getSim().compare(XML_Array[j]) == 0) {
                     //found a match
                     it->second.setValue(values[j]);
-                    //  cout<<"updated from server: "+it->second.getSim()+to_string(values[j])<<endl;
                     break;
                 }
             }
 
         }
 
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 
 
