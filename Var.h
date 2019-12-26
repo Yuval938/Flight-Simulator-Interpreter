@@ -4,7 +4,9 @@
 
 #ifndef EX3_VAR_H
 #define EX3_VAR_H
+
 #include <fstream>
+#include "ex1.h"
 
 using namespace std;
 
@@ -15,8 +17,10 @@ class Var {
 
 public:
     virtual ~Var() {};
-    Var(){};
-    Var(string type, string sim){
+
+    Var() {};
+
+    Var(string type, string sim) {
         this->setType(type);
         this->setSim(sim);
     }
@@ -24,24 +28,25 @@ public:
     string getSim() {
         return this->sim;
     }
-    string getType(){
+
+    string getType() {
         return this->type;
     }
 
-    double getValue(){
+    double getValue() {
         return this->value;
     }
 
-    void setValue(double newVal){
-        this->value=newVal;
+    void setValue(double newValue) {
+        this->value = newValue;
     }
 
-    void setType(string type){
-        this->type= type;
+    void setType(string type) {
+        this->type = type;
     }
 
-    void setSim(string sim){
-        this->sim= sim;
+    void setSim(string sim) {
+        this->sim = sim;
     }
 
 };

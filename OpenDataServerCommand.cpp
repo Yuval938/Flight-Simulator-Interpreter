@@ -2,10 +2,11 @@
 // Created by yuval on 21/12/2019.
 //
 
-#include <cstring>
 #include <sstream>
 #include "OpenDataServerCommand.h"
 #include "globals.h"
+#include "ex1.h"
+#include "ex1.cpp"
 
 vector<double> convertToDoubleArray(char *buffer) {
     string valuesAsString(buffer);

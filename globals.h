@@ -11,29 +11,56 @@
 #include "Command.h"
 #include "Var.h"
 #include <queue>
+#include "ex1.h"
 
 extern map<string, Var> SymbolTable;
 extern map<string, Command *> CommandList;
 extern thread threads[2];
-extern queue<string> SetCommands;
+extern queue <string> SetCommands;
 
-void updateVarValue(string var, string str) {
+Interpreter *makeInterpeter();
 
-    int numPos = str.find("=") + 2;
-    str = str.substr(numPos);
-    int pos = str.find(" ");
-    str = str.substr(0, pos);
-    double newValue = std::stod(str);
-    SymbolTable[var].setValue(newValue);
-    //if we need to set a value in the game we will alert the client by pushing a command to the queue
-    if (SymbolTable[var].getType().compare("set") == 0) {
-        string set = SymbolTable[var].getType() + " " + SymbolTable[var].getSim() + " " +
-                     to_string(SymbolTable[var].getValue()) + "\r\n";
-        SetCommands.push(set);
+std::string ReplaceAll(std::string str, const std::string& from, const std::string& to) {
+    size_t start_pos = 0;
+    while((start_pos = str.find(from, start_pos)) != std::string::npos) {
+        str.replace(start_pos, from.length(), to);
+        start_pos += to.length(); // Handles case where 'to' is a substring of 'from'
     }
-
+    return str;
 }
 
+bool is_number(const std::string &s) {
+    std::string::const_iterator it = s.begin();
+    while (it != s.end() && std::isdigit(*it)) ++it;
+    return !s.empty() && it == s.end();
+}
+
+void updateVarValue(string var, string str) {
+    // need to make the Expression
+    Interpreter *in = makeInterpeter();
+    Expression *e;
+    int posOfEq = str.find('=') + 2;
+    int posOfEndl = str.find("endl ");
+    str = str.substr(posOfEq, posOfEndl - posOfEq -1);
+    std::string::iterator end_pos = std::remove(str.begin(), str.end(), ' ');
+    str.erase(end_pos, str.end());
+    int tt = 3;
+    try{
+        e= in->interpret(str);
+        SymbolTable[var].setValue(e->calculate());
+    } catch(const std::exception&) {
+        cout << "error at updateVarValue" << endl;
+    }
+}
+
+Interpreter *makeInterpeter() {
+    Interpreter *i = new Interpreter();
+    for(auto item: SymbolTable){
+        i->setVariables(item.first + "=" + std::to_string(item.second.getValue()));
+    }
+
+    return i;
+}
 
 int executeFromContent(std::vector<std::string> content, int position, map<string, Command *> CommandsMap) {
     bool gotCurlyBraces = false;
@@ -48,7 +75,6 @@ int executeFromContent(std::vector<std::string> content, int position, map<strin
     } else {
         pos = min(posOfFirstSpace, posOfRoundBrace); // take the first of them
     }
-
     string command = content[position].substr(0, pos); // get the first word
     string ExecuteInfo = content[position].substr(pos) + " endl "; // get the rest of the line
     if (content[position].find('{') != string::npos) {
@@ -73,9 +99,6 @@ int executeFromContent(std::vector<std::string> content, int position, map<strin
 
     return position;
 }
-
-
-
 
 
 #endif //EX3_3_GLOBALS_H

@@ -7,15 +7,16 @@
 int ConnectControlClientCommand::execute(string str) {
     cout << "Connecting to Control Client using this string:     " << str << endl;
     //example --> ("127.0.0.1",5402)
-    string ip = str.substr(str.find_first_of('"') + 1, str.find_last_of('"') - 2);
-    string port1 = str.substr(str.find_first_of(",") + 1, str.find(")"));
-    string port = port1.substr(0, port1.find(")"));
-    threads[1] = thread(&ConnectControlClientCommand::RunClient1, this, ip,atoi(port.c_str()));
+    string ip = str.substr(str.find_first_of('"'), str.find_last_of('"'));
+    string port; // need to find port
+
+    //for some reason i cant break the string to a port and an ip -FIX I
+    threads[1] = thread(&ConnectControlClientCommand::RunClient, this, "127.0.0.1", 5402);
 
 
 }
 
-int ConnectControlClientCommand::RunClient1(string ip, int PORT) {
+int ConnectControlClientCommand::RunClient(const char *ip, int PORT) {
 //create socket
     int client_socket = socket(AF_INET, SOCK_STREAM, 0);
     if (client_socket == -1) {
@@ -23,11 +24,11 @@ int ConnectControlClientCommand::RunClient1(string ip, int PORT) {
         std::cerr << "Could not create a socket" << std::endl;
         return -1;
     }
-    const char *a = ip.c_str();
+
     //We need to create a sockaddr obj to hold address of server
     sockaddr_in address; //in means IP4
     address.sin_family = AF_INET;//IP4
-    address.sin_addr.s_addr = inet_addr(a);  //the localhost address
+    address.sin_addr.s_addr = inet_addr(ip);  //the localhost address
     address.sin_port = htons(PORT);
     //we need to convert our number (both port & localhost)
     // to a number that the network understands.

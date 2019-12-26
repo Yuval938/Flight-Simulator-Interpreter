@@ -42,7 +42,14 @@ int DefineVarCommand::execute(string str) {
     } else {
         sim =""; // cause we dont have path
         SymbolTable[var] = Var("set", sim);
-        SymbolTable[var].setValue(SymbolTable[var2].getValue());
+        if ( SymbolTable.find("f") == SymbolTable.end() ) {
+            // not found so it's must be number
+            SymbolTable[var].setValue(atof(var2.c_str()));
+        } else {
+            // found so we'll take the value in the map
+            SymbolTable[var].setValue(SymbolTable[var2].getValue());
+        }
+
     }
 
     return 0;

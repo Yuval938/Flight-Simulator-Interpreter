@@ -61,12 +61,12 @@ int IfCommand::execute(string str) {
         cout << "error, one of the sides isnt a number" << endl;
     }
 
-    int varValue = SymbolTable[var].getValue();
+
     i = 0;
 
     int contentSize = content.size();
     if (operand.compare("<=") == 0) {
-        if (varValue <= number) {
+        if (SymbolTable[var].getValue() <= number) {
             i = 0;
             while (i < contentSize) {
                 i = executeFromContent(content, i, CommandList) + 1;
@@ -74,7 +74,7 @@ int IfCommand::execute(string str) {
             }
         }
     } else if (operand.compare("<") == 0) {
-        if (varValue < number) {
+        if (SymbolTable[var].getValue() < number) {
             i = 0;
             while (i < contentSize) {
                 i = executeFromContent(content, i, CommandList) + 1;
@@ -82,7 +82,7 @@ int IfCommand::execute(string str) {
             }
         }
     } else if (operand.compare(">=") == 0) {
-        if (varValue >= number) {
+        if (SymbolTable[var].getValue() >= number) {
             i = 0;
             while (i < contentSize) {
                 i = executeFromContent(content, i, CommandList) + 1;
@@ -90,7 +90,7 @@ int IfCommand::execute(string str) {
             }
         }
     } else if (operand.compare(">") == 0) {
-        if (varValue > number) {
+        if (SymbolTable[var].getValue() > number) {
             i = 0;
             while (i < contentSize) {
                 i = executeFromContent(content, i, CommandList) + 1;
@@ -98,7 +98,7 @@ int IfCommand::execute(string str) {
             }
         }
     } else if (operand.compare("==") == 0) {
-        if (varValue == number) {
+        if (SymbolTable[var].getValue() == number) {
             i = 0;
             while (i < contentSize) {
                 i = executeFromContent(content, i, CommandList) + 1;
