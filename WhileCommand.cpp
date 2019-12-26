@@ -61,7 +61,6 @@ int WhileCommand::execute(string str) {
         cout << "error, one of the sides isnt a number" << endl;
     }
 
-    int varValue = SymbolTable[var].getValue();
     i = 0;
 
     int contentSize = content.size();
@@ -69,7 +68,7 @@ int WhileCommand::execute(string str) {
         while (SymbolTable[var].getValue() <= number) {
             i = 0;
             while (i < contentSize) {
-                i = executeConditionParser(content, i, CommandList) + 1;
+                i = executeFromContent(content, i, CommandList) + 1;
                 i++;
             }
         }
@@ -77,7 +76,7 @@ int WhileCommand::execute(string str) {
         while (SymbolTable[var].getValue() < number) {
             i = 0;
             while (i < contentSize) {
-                i = executeConditionParser(content, i, CommandList) + 1;
+                i = executeFromContent(content, i, CommandList) + 1;
                 i++;
             }
         }
@@ -85,7 +84,7 @@ int WhileCommand::execute(string str) {
         while (SymbolTable[var].getValue() >= number) {
             i = 0;
             while (i < contentSize) {
-                i = executeConditionParser(content, i, CommandList) + 1;
+                i = executeFromContent(content, i, CommandList) + 1;
                 i++;
             }
         }
@@ -93,7 +92,7 @@ int WhileCommand::execute(string str) {
         while (SymbolTable[var].getValue() > number) {
             i = 0;
             while (i < contentSize) {
-                i = executeConditionParser(content, i, CommandList) + 1;
+                i = executeFromContent(content, i, CommandList) + 1;
                 i++;
             }
         }
@@ -101,7 +100,15 @@ int WhileCommand::execute(string str) {
         while (SymbolTable[var].getValue() == number) {
             i = 0;
             while (i < contentSize) {
-                i = executeConditionParser(content, i, CommandList) + 1;
+                i = executeFromContent(content, i, CommandList) + 1;
+                i++;
+            }
+        }
+    } else if (operand.compare("!=") == 0) {
+        while (SymbolTable[var].getValue() != number) {
+            i = 0;
+            while (i < contentSize) {
+                i = executeFromContent(content, i, CommandList) + 1;
                 i++;
             }
         }

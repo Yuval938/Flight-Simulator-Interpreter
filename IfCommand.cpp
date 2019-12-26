@@ -69,25 +69,23 @@ int IfCommand::execute(string str) {
         if (varValue <= number) {
             i = 0;
             while (i < contentSize) {
-                i = executeConditionParser(content, i, CommandList) + 1;
+                i = executeFromContent(content, i, CommandList) + 1;
                 i++;
-                varValue += 150; //just for check
             }
         }
     } else if (operand.compare("<") == 0) {
         if (varValue < number) {
             i = 0;
             while (i < contentSize) {
-                i = executeConditionParser(content, i, CommandList) + 1;
+                i = executeFromContent(content, i, CommandList) + 1;
                 i++;
-                varValue += 150; //just for check
             }
         }
     } else if (operand.compare(">=") == 0) {
         if (varValue >= number) {
             i = 0;
             while (i < contentSize) {
-                i = executeConditionParser(content, i, CommandList) + 1;
+                i = executeFromContent(content, i, CommandList) + 1;
                 i++;
             }
         }
@@ -95,7 +93,7 @@ int IfCommand::execute(string str) {
         if (varValue > number) {
             i = 0;
             while (i < contentSize) {
-                i = executeConditionParser(content, i, CommandList) + 1;
+                i = executeFromContent(content, i, CommandList) + 1;
                 i++;
             }
         }
@@ -103,7 +101,15 @@ int IfCommand::execute(string str) {
         if (varValue == number) {
             i = 0;
             while (i < contentSize) {
-                i = executeConditionParser(content, i, CommandList) + 1;
+                i = executeFromContent(content, i, CommandList) + 1;
+                i++;
+            }
+        }
+    } else if (operand.compare("!=") == 0) {
+        if (SymbolTable[var].getValue() != number) {
+            i = 0;
+            while (i < contentSize) {
+                i = executeFromContent(content, i, CommandList) + 1;
                 i++;
             }
         }
