@@ -17,6 +17,7 @@ extern map<string, Var> SymbolTable;
 extern map<string, Command *> CommandList;
 extern thread threads[2];
 extern queue <string> SetCommands;
+extern bool endOfFile;
 
 Interpreter *makeInterpeter();
 

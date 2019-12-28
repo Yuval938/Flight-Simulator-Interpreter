@@ -107,7 +107,7 @@ int OpenDataServerCommand::RunServer(int PORT) {
     char buffer[1024] = {0};
     int i = 0;
     vector<double> values;
-    while (true) {
+    while (!endOfFile) {
         int valread = read(client_socket, buffer, 1024);
         values = convertToDoubleArray(buffer);
         // need to check if this part is still good

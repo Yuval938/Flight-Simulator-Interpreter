@@ -48,12 +48,13 @@ int main() {
     while (std::getline(file, line)) {
         content.push_back(line);
     }
-
+    endOfFile = false;
     // at this point, content contains fly.txt line by line.
     int i = 0, contentSize = content.size();
     while (i < contentSize) {
         i = executeFromContent(content, i, CommandList) + 1;
     }
+    endOfFile=true;
     threads[0].join();
     threads[1].join();
 

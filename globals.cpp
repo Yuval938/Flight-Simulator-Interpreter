@@ -8,3 +8,4 @@ map<string, Var> SymbolTable;
 map<string, Command *> CommandList;
 thread threads[2];
 queue<string> SetCommands;
+bool endOfFile;

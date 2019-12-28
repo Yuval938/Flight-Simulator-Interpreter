@@ -50,7 +50,7 @@ int ConnectControlClientCommand::RunClient(const char *ip, int PORT) {
     //if here we made a connection
     //the server will see if there's a set command for him in queue and if so - he will use it
 // string sim = "set "+rudder+" 1\r\n";
-    while (true) {  //will replace with a better condition..
+    while (!endOfFile) {  //will replace with a better condition..
 
         if (!SetCommands.empty()) {
             string command = SetCommands.front();
@@ -61,13 +61,8 @@ int ConnectControlClientCommand::RunClient(const char *ip, int PORT) {
 
                 SetCommands.pop();
             }
-
         }
-        sleep(0.1);
     }
-    char buffer[1024] = {0};
-    int valread = read(client_socket, buffer, 1024);
-    std::cout << buffer << std::endl;
 
     close(client_socket);
 
