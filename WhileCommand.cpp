@@ -24,15 +24,19 @@ int WhileCommand::execute(string str) {
             word += str.at(i);
             i++;
         }
-        line += word + " ";
-        if (word.compare("endl") == 0) { //we're at the end of the line
-            if (readingFirstLine) {
-                conditionLine = line;
-                readingFirstLine = false;
-            } else {
-                content.push_back(line);
+        if(word.compare("}") != 0){
+            line += word + " ";
+            if (word.compare("endl") == 0) { //we're at the end of the line
+                if (readingFirstLine) {
+                    conditionLine = line;
+                    readingFirstLine = false;
+                } else {
+                    content.push_back(line);
+                }
+                line = "";
             }
-            line = "";
+        } else {
+            break;
         }
     }
 

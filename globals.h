@@ -16,7 +16,7 @@
 extern map<string, Var> SymbolTable;
 extern map<string, Command *> CommandList;
 extern thread threads[2];
-extern queue<string> SetCommands;
+extern queue <string> SetCommands;
 
 Interpreter *makeInterpeter();
 
@@ -87,6 +87,7 @@ int executeFromContent(std::vector<std::string> content, int position, map<strin
     while (gotCurlyBraces) {
         if (content[position].find('}') != string::npos) {
             gotCurlyBraces = false;
+            position --;
         }
         ExecuteInfo += content[position] + " endl ";
         position++;
@@ -96,8 +97,8 @@ int executeFromContent(std::vector<std::string> content, int position, map<strin
     if (c != NULL) {
         c->execute(ExecuteInfo);
     } else { // for now, we assume that if it's not a command, it's probably a defined var
-        if(command.compare("}")!=0) {
-        cout << "updating \"" << command << "\"" << endl;
+        if (command.compare("}") != 0) {
+            cout << "updating \"" << command << "\"" << endl;
             updateVarValue(command, ExecuteInfo);
         }
     }
