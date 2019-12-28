@@ -11,16 +11,31 @@
 vector<double> convertToDoubleArray(char *buffer) {
     string valuesAsString(buffer);
     vector<double> valuesInDouble;
+    string line = valuesAsString.substr(0,valuesAsString.find_first_of('\n'));
+    size_t commaNum = std::count(line.begin(), line.end(), ',');
+    if(commaNum!=35){
+       line = "";
+        for(int k=0;k<1024;k++){
+            if(buffer[k]=='\n'){
+                k++;
+                while(buffer[k]!='\n'){
+                    line+=buffer[k];
+                    k++;
+                }
+                break;
+            }
+        }
+    }
     string::size_type i = 0;
-    string::size_type j = valuesAsString.find(',');
+    string::size_type j = line.find(',');
 
     while (j != string::npos) {
-        valuesInDouble.push_back(atof(valuesAsString.substr(i, j - i).c_str()));
+        valuesInDouble.push_back(atof(line.substr(i, j - i).c_str()));
         i = ++j;
-        j = valuesAsString.find(',', j);
+        j = line.find(',', j);
 
         if (j == string::npos)
-            valuesInDouble.push_back(atof(valuesAsString.substr(i, valuesAsString.length()).c_str()));
+            valuesInDouble.push_back(atof(line.substr(i, line.length()).c_str()));
     }
 
     return valuesInDouble;
@@ -89,11 +104,11 @@ int OpenDataServerCommand::RunServer(int PORT) {
     close(socketfd); //closing the listening socket
 
     //reading from client
-    char buffer[380] = {0};
+    char buffer[1024] = {0};
     int i = 0;
     vector<double> values;
     while (true) {
-        int valread = read(client_socket, buffer, 380);
+        int valread = read(client_socket, buffer, 1024);
         values = convertToDoubleArray(buffer);
         // need to check if this part is still good
         for (int j = 0; j < 36; j++) {
@@ -110,8 +125,6 @@ int OpenDataServerCommand::RunServer(int PORT) {
             }
 
         }
-
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 
 
@@ -161,4 +174,5 @@ vector<string> OpenDataServerCommand::makeXmlArray() {
     pString.push_back("/controls/switches/master-alt");
     pString.push_back("/engines/engine/rpm");
     return pString;
+
 }

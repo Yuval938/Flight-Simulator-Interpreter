@@ -60,10 +60,6 @@ int ConnectControlClientCommand::RunClient(const char *ip, int PORT) {
             } else {
 
                 SetCommands.pop();
-                char buffer[1024] = {0};
-                int valread = read(client_socket, buffer, 1024);
-                std::cout << buffer << std::endl;
-
             }
 
         }
