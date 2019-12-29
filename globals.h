@@ -71,6 +71,7 @@ int executeFromContent(std::vector<std::string> content, int position, map<strin
     int pos;
     int posOfRoundBrace = content[position].find("(");
     int posOfFirstSpace = content[position].find(" ");
+    int posOfCloseCurlyBrace = content[position].find("}");
 
     if (posOfRoundBrace == -1) { //means there was no '('
         pos = posOfFirstSpace;
@@ -78,6 +79,9 @@ int executeFromContent(std::vector<std::string> content, int position, map<strin
         pos = posOfRoundBrace;
     } else {
         pos = min(posOfFirstSpace, posOfRoundBrace); // take the first of them
+    }
+    if(posOfCloseCurlyBrace >= 0){
+        pos = 0;
     }
     string command = content[position].substr(0, pos); // get the first word
     string ExecuteInfo = content[position].substr(pos) + " endl "; // get the rest of the line
@@ -88,10 +92,11 @@ int executeFromContent(std::vector<std::string> content, int position, map<strin
     while (gotCurlyBraces) {
         if (content[position].find('}') != string::npos) {
             gotCurlyBraces = false;
-            position --;
+            position--;
+        } else {
+            ExecuteInfo += content[position] + " endl ";
+            position++;
         }
-        ExecuteInfo += content[position] + " endl ";
-        position++;
     }
 
     Command *c = CommandsMap[command];
