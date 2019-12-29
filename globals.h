@@ -80,7 +80,7 @@ int executeFromContent(std::vector<std::string> content, int position, map<strin
     } else {
         pos = min(posOfFirstSpace, posOfRoundBrace); // take the first of them
     }
-    if(posOfCloseCurlyBrace >= 0){
+    if (posOfCloseCurlyBrace >= 0) {
         pos = 0;
     }
     string command = content[position].substr(0, pos); // get the first word
@@ -103,7 +103,7 @@ int executeFromContent(std::vector<std::string> content, int position, map<strin
     if (c != NULL) {
         c->execute(ExecuteInfo);
     } else { // for now, we assume that if it's not a command, it's probably a defined var
-        if (command.compare("}") != 0) {
+        if (command.compare("}") != 0 && command.compare("") != 0) {
             cout << "updating \"" << command << "\"" << endl;
             updateVarValue(command, ExecuteInfo);
         }
