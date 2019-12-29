@@ -44,7 +44,9 @@ vector<double> convertToDoubleArray(char *buffer) {
 
 int OpenDataServerCommand::execute(string str) {
     cout << "opening data server using this string:     " << str << endl;
-    int port = atoi(str.substr(1, str.find_first_of(")") - 1).c_str());
+    string portStr = str.substr(1, str.find_first_of(")") - 1);
+    Interpreter *i = new Interpreter();
+    int port = (i->interpret(portStr))->calculate();
     cout << port << endl;
     threads[0] = thread(&OpenDataServerCommand::RunServer, this, port);
 
