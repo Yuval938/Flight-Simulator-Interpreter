@@ -45,7 +45,6 @@ void updateVarValue(string var, string str) {
     str = str.substr(posOfEq, posOfEndl - posOfEq - 1);
     std::string::iterator end_pos = std::remove(str.begin(), str.end(), ' ');
     str.erase(end_pos, str.end());
-    int tt = 3;
     try {
         e = in->interpret(str);
         SymbolTable[var].setValue(e->calculate());

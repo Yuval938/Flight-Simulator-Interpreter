@@ -36,13 +36,17 @@ int min(int a, int b) {
     return b;
 }
 
-int main() {
+int main(int argc, char *argv[]) {
+    string path = "fly.txt";
+    if(argc > 0) {
+        path = argv[1];
+    }
     MakeCommandMap();
-    std::string file_path("fly.txt"); // I assumed you have that kind of file
+    std::string file_path(path); // I assumed you have that kind of file
     std::ifstream in_s(file_path);
 
     std::vector<std::string> content;
-    ifstream file("fly.txt");
+    ifstream file(path);
 
     string line;
     while (std::getline(file, line)) {
@@ -54,7 +58,7 @@ int main() {
     while (i < contentSize) {
         i = executeFromContent(content, i, CommandList) + 1;
     }
-    endOfFile=true;
+    endOfFile = true;
     threads[0].join();
     threads[1].join();
 

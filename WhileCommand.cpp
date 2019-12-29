@@ -24,7 +24,7 @@ int WhileCommand::execute(string str) {
             word += str.at(i);
             i++;
         }
-        if(word.compare("}") != 0){
+        if (word.compare("}") != 0) {
             line += word + " ";
             if (word.compare("endl") == 0) { //we're at the end of the line
                 if (readingFirstLine) {
@@ -43,9 +43,15 @@ int WhileCommand::execute(string str) {
 
     conditionLine.erase(conditionLine.begin(), std::find_if(conditionLine.begin(), conditionLine.end(),
                                                             std::bind1st(std::not_equal_to<char>(), ' ')));
+    string leftSide = "";
     // example of str: warp -> sim("/sim/time/warp") endl
     int pos = conditionLine.find(" "); // getting the first space
-    string leftSide = conditionLine.substr(0, pos); // getting first substring until first space
+    if (pos > 0) {
+        leftSide = conditionLine.substr(0, pos); // getting first substring until first space
+    } else {
+        leftSide = conditionLine;
+    }
+
     conditionLine = conditionLine.substr(pos + 1); // desposing the var now got left with: -> sim("/sim/time/warp") endl
     pos = conditionLine.find(" "); // getting the second space
     string operand = conditionLine.substr(0, pos); // getting the arrow
@@ -74,6 +80,8 @@ int WhileCommand::execute(string str) {
             while (i < contentSize) {
                 i = executeFromContent(content, i, CommandList) + 1;
             }
+          //  cout << "ddd" << endl;
+          // SymbolTable["rpm"].setValue(SymbolTable["rpm"].getValue() + 1);
         }
     } else if (operand.compare("<") == 0) {
         while (SymbolTable[var].getValue() < number) {
@@ -81,6 +89,7 @@ int WhileCommand::execute(string str) {
             while (i < contentSize) {
                 i = executeFromContent(content, i, CommandList) + 1;
             }
+           // SymbolTable["alt"].setValue(SymbolTable["alt"].getValue() + 20);
         }
     } else if (operand.compare(">=") == 0) {
         while (SymbolTable[var].getValue() >= number) {
