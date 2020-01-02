@@ -4,6 +4,11 @@
 
 #include "ConnectControlClientCommand.h"
 
+/*
+ * execute command in this object will break down the string to a string(ip) and an int (port) , the port is calculated
+ * via Interpreter (that we made in HW1) in order to treat expressions like 5000+400 (instead of 5400)
+ * after that execute() will open a new thread and will run RunClient() on that thread.
+ */
 int ConnectControlClientCommand::execute(string str) {
     cout << "Connecting to Control Client using this string:     " << str << endl;
     //example --> ("127.0.0.1",5402)
@@ -19,11 +24,8 @@ int ConnectControlClientCommand::execute(string str) {
     port = port.substr(0, pos);
     Interpreter *i = new Interpreter();
     int portAsInt = (i->interpret(port))->calculate();
-    //  int portAsInt = stoi(port);
-
-    //for some reason i cant break the string to a port and an ip -FIX I
     threads[1] = thread(&ConnectControlClientCommand::RunClient, this, ip, portAsInt);
-
+    //main thread will wait until the Client connected successfully
     while (ClientisConnected == false) {
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
     }
@@ -31,9 +33,16 @@ int ConnectControlClientCommand::execute(string str) {
 
 }
 
+/*
+ * RunClient() will connect to a server as a client and will send massages to that server.
+ * way of operation:
+ * -connect's to server
+ * -check's if there's any string in the Command Queue to output to the server
+ * outputs the string to the server.
+ */
 int ConnectControlClientCommand::RunClient(string ipAsString, int PORT) {
 //create socket
-const char* ip = ipAsString.c_str();
+    const char *ip = ipAsString.c_str();
     int client_socket = socket(AF_INET, SOCK_STREAM, 0);
     if (client_socket == -1) {
         //error
@@ -56,12 +65,12 @@ const char* ip = ipAsString.c_str();
         return -2;
     } else {
         std::cout << "Client is now connected to server" << std::endl;
-        ClientisConnected =true;
+        ClientisConnected = true;
     }
 
     //if here we made a connection
     //the server will see if there's a set command for him in queue and if so - he will use it
-// string sim = "set "+rudder+" 1\r\n";
+    // string sim = "set "+rudder+" 1\r\n";
     while (!endOfFile) {  //will replace with a better condition..
 
         if (!SetCommands.empty()) {

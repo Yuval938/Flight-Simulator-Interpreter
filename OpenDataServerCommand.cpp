@@ -7,14 +7,18 @@
 #include "globals.h"
 #include "ex1.h"
 #include "ex1.cpp"
-
+/*
+ * convertToDoubleArray will transform a char* buffer to a vector<double>
+ * this func will make sure the vector<double> has 36 values. if the first line in the buffer has less than 36 values,
+ * we can assume that the line is not a "full" line of values, therefore we will use the following line.
+ */
 vector<double> convertToDoubleArray(char *buffer) {
     string valuesAsString(buffer);
     vector<double> valuesInDouble;
     string line = valuesAsString.substr(0,valuesAsString.find_first_of('\n'));
     size_t commaNum = std::count(line.begin(), line.end(), ',');
-    if(commaNum!=35){
-       line = "";
+    if(commaNum!=35){            //if there are less than 35 commas we know that the line from the buffer is not "full"
+       line = "";                //we will use the following line (starts when the first \n appears until the next \n
         for(int k=0;k<1024;k++){
             if(buffer[k]=='\n'){
                 k++;
@@ -26,6 +30,8 @@ vector<double> convertToDoubleArray(char *buffer) {
             }
         }
     }
+
+     //now we are certain we have a "full line" , we will separate each value and insert it to the vector
     string::size_type i = 0;
     string::size_type j = line.find(',');
 
@@ -41,7 +47,11 @@ vector<double> convertToDoubleArray(char *buffer) {
     return valuesInDouble;
 
 }
-
+/*
+ * execute command in this object will break down the string to an int (port) , the port is calculated
+ * via Interpreter (that we made in HW1) in order to treat expressions like 5000+400 (instead of 5400)
+ * after that execute() will open a new thread and will run RunServer() on that thread.
+ */
 int OpenDataServerCommand::execute(string str) {
     cout << "opening data server using this string:     " << str << endl;
     string portStr = str.substr(1, str.find_first_of(")") - 1);
@@ -56,7 +66,13 @@ int OpenDataServerCommand::execute(string str) {
 
 
 }
-
+/*
+ * RunServer() will open a server and will wait for the FlightGear Simulator to connect.
+ * way of operation:
+ * -opens a server and waits for a request to connect from the Simulator
+ * -once the Simulator is connected,the server will receive stats from it (as determined in the generic_small.xml file)
+ * -the server will update the values in the map that are corresponding with the input we receive from the Simulator.
+ */
 int OpenDataServerCommand::RunServer(int PORT) {
     vector<string> XML_Array = makeXmlArray();
     //create socket

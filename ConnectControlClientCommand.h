@@ -16,8 +16,6 @@ public:
     ConnectControlClientCommand(){}
     int execute(string str);
     bool ClientisConnected=false;
-
-
     int RunClient(string ipAsString, int port);
 };
 #endif //EX3_CONNECTCONTROLCLIENTCOMMAND_H

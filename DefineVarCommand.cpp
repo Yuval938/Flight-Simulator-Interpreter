@@ -5,7 +5,9 @@
 #include "DefineVarCommand.h"
 #include "globals.h"
 
-
+/*
+ * DefineVarCommand::execute(string str) will make a new Var Object and will insert it to our map.
+ */
 int DefineVarCommand::execute(string str) {
     cout << "making a Var Object using this string:    " << str << endl;
 
