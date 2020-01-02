@@ -12,7 +12,8 @@ int SleepCommand::execute(string str) {
     int posOpenBrace = str.find("(");
     int posCloseBrace = str.find(")");
     str = str.substr(posOpenBrace + 1, posCloseBrace - posOpenBrace - 1);
-    cout << "sleeps for "<< str  << " milliseconds"<< endl;
-    int ms = std::stoi(str);
+    Interpreter *i = new Interpreter();
+    int ms = (i->interpret(str))->calculate();
+    cout << "sleeps for "<< ms  << " milliseconds"<< endl;
     std::this_thread::sleep_for(std::chrono::milliseconds(ms));
 }
