@@ -45,7 +45,6 @@ void updateVarValue(string var, string str) {
     str = str.substr(posOfEq, posOfEndl - posOfEq - 1);
     std::string::iterator end_pos = std::remove(str.begin(), str.end(), ' ');
     str.erase(end_pos, str.end());
-    int tt = 3;
     try {
         e = in->interpret(str);
         SymbolTable[var].setValue(e->calculate());
@@ -71,6 +70,7 @@ int executeFromContent(std::vector<std::string> content, int position, map<strin
     int pos;
     int posOfRoundBrace = content[position].find("(");
     int posOfFirstSpace = content[position].find(" ");
+    int posOfCloseCurlyBrace = content[position].find("}");
 
     if (posOfRoundBrace == -1) { //means there was no '('
         pos = posOfFirstSpace;
@@ -78,6 +78,9 @@ int executeFromContent(std::vector<std::string> content, int position, map<strin
         pos = posOfRoundBrace;
     } else {
         pos = min(posOfFirstSpace, posOfRoundBrace); // take the first of them
+    }
+    if (posOfCloseCurlyBrace >= 0) {
+        pos = 0;
     }
     string command = content[position].substr(0, pos); // get the first word
     string ExecuteInfo = content[position].substr(pos) + " endl "; // get the rest of the line
@@ -88,17 +91,18 @@ int executeFromContent(std::vector<std::string> content, int position, map<strin
     while (gotCurlyBraces) {
         if (content[position].find('}') != string::npos) {
             gotCurlyBraces = false;
-            position --;
+            position--;
+        } else {
+            ExecuteInfo += content[position] + " endl ";
+            position++;
         }
-        ExecuteInfo += content[position] + " endl ";
-        position++;
     }
 
     Command *c = CommandsMap[command];
     if (c != NULL) {
         c->execute(ExecuteInfo);
     } else { // for now, we assume that if it's not a command, it's probably a defined var
-        if (command.compare("}") != 0) {
+        if (command.compare("}") != 0 && command.compare("") != 0) {
             cout << "updating \"" << command << "\"" << endl;
             updateVarValue(command, ExecuteInfo);
         }

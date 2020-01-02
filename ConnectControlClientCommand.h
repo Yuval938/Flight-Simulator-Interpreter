@@ -18,6 +18,6 @@ public:
     bool ClientisConnected=false;
 
 
-    int RunClient(const char *ip, int port);
+    int RunClient(string ipAsString, int port);
 };
 #endif //EX3_CONNECTCONTROLCLIENTCOMMAND_H

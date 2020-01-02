@@ -7,11 +7,22 @@
 int ConnectControlClientCommand::execute(string str) {
     cout << "Connecting to Control Client using this string:     " << str << endl;
     //example --> ("127.0.0.1",5402)
-    string ip = str.substr(str.find_first_of('"'), str.find_last_of('"'));
-    string port; // need to find port
+    int pos = 0; // getting the first space
+    pos = str.find("\"");
+    string ip = str.substr(pos + 1);
+    string port = ip;
+    pos = ip.find("\"");
+    int pos2 = ip.find(',');
+    ip = ip.substr(0, pos);
+    port = port.substr(pos2 + 1);
+    pos = port.find(')');
+    port = port.substr(0, pos);
+    Interpreter *i = new Interpreter();
+    int portAsInt = (i->interpret(port))->calculate();
+    //  int portAsInt = stoi(port);
 
     //for some reason i cant break the string to a port and an ip -FIX I
-    threads[1] = thread(&ConnectControlClientCommand::RunClient, this, "127.0.0.1", 5402);
+    threads[1] = thread(&ConnectControlClientCommand::RunClient, this, ip, portAsInt);
 
     while (ClientisConnected == false) {
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
@@ -20,8 +31,9 @@ int ConnectControlClientCommand::execute(string str) {
 
 }
 
-int ConnectControlClientCommand::RunClient(const char *ip, int PORT) {
+int ConnectControlClientCommand::RunClient(string ipAsString, int PORT) {
 //create socket
+const char* ip = ipAsString.c_str();
     int client_socket = socket(AF_INET, SOCK_STREAM, 0);
     if (client_socket == -1) {
         //error
