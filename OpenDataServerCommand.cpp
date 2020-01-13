@@ -2,11 +2,7 @@
 // Created by yuval on 21/12/2019.
 //
 
-#include <sstream>
 #include "OpenDataServerCommand.h"
-#include "globals.h"
-#include "ex1.h"
-#include "ex1.cpp"
 /*
  * convertToDoubleArray will transform a char* buffer to a vector<double>
  * this func will make sure the vector<double> has 36 values. if the first line in the buffer has less than 36 values,
@@ -14,6 +10,7 @@
  */
 vector<double> convertToDoubleArray(char *buffer) {
     string valuesAsString(buffer);
+  //  cout<<buffer<<endl;
     vector<double> valuesInDouble;
     string line = valuesAsString.substr(0,valuesAsString.find_first_of('\n'));
     size_t commaNum = std::count(line.begin(), line.end(), ',');
@@ -43,7 +40,6 @@ vector<double> convertToDoubleArray(char *buffer) {
         if (j == string::npos)
             valuesInDouble.push_back(atof(line.substr(i, line.length()).c_str()));
     }
-
     return valuesInDouble;
 
 }
@@ -55,6 +51,7 @@ vector<double> convertToDoubleArray(char *buffer) {
 int OpenDataServerCommand::execute(string str) {
     cout << "opening data server using this string:     " << str << endl;
     string portStr = str.substr(1, str.find_first_of(")") - 1);
+    replaceAll(portStr, " ", "");
     Interpreter *i = new Interpreter();
     int port = (i->interpret(portStr))->calculate();
     cout << port << endl;
@@ -64,6 +61,7 @@ int OpenDataServerCommand::execute(string str) {
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
     }
 
+    return 0;
 
 }
 /*
@@ -123,14 +121,14 @@ int OpenDataServerCommand::RunServer(int PORT) {
 
     //reading from client
     char buffer[1024] = {0};
-    int i = 0;
     vector<double> values;
     while (!endOfFile) {
         int valread = read(client_socket, buffer, 1024);
         values = convertToDoubleArray(buffer);
+
         // need to check if this part is still good
-        for (int j = 0; j < 36; j++) {
-            map<string, Var>::iterator it = SymbolTable.begin();
+        for (int j = 0; j < values.size(); j++) {
+           // map<string, Var>::iterator it = SymbolTable.begin();
             for (map<string, Var>::iterator it = SymbolTable.begin(); it != SymbolTable.end(); it++) {
                 if (it->second.getType().compare("get") != 0) {
                     //if the var is not <- we will skip him

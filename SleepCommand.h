@@ -6,7 +6,9 @@
 #define EX3_2_SLEEPCOMMAND_H
 
 
-#include "Command.h"
+#include "globals.h"
+#include <thread>
+#include <chrono>
 
 class SleepCommand : public Command {
 public:

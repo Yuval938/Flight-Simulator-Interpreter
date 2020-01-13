@@ -3,7 +3,6 @@
 //
 
 #include "PrintCommand.h"
-#include "globals.h"
 int PrintCommand::execute(string str) {
     //cout << "printing using this string:     " << str << endl;
     cout << "PRINT_COMMAND: " << flush;
@@ -20,4 +19,6 @@ int PrintCommand::execute(string str) {
 
 
     }
+
+    return 0;
 }

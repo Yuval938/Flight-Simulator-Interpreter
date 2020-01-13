@@ -5,14 +5,15 @@
 #ifndef UNTITLED8_COMMAND_H
 #define UNTITLED8_COMMAND_H
 
-#include "Var.h"
-#include "Var.cpp"
-
 using namespace std;
 #include <iostream>
 #include <map>
 #include <vector>
 #include <thread>
+#include "Var.h"
+#include "Var.cpp"
+#include <regex>
+
 
 /**
  * Command Interface

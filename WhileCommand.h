@@ -5,7 +5,6 @@
 #ifndef EX3_WHILECOMMAND_H
 #define EX3_WHILECOMMAND_H
 #include "ConditionParser.h"
-#include "Command.h"
 
 using namespace std;
 class WhileCommand : public ConditionParser{

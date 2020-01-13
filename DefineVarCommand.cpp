@@ -1,10 +1,9 @@
 //
 // Created by yuval on 17/12/2019.
 //
-#include <regex>
 #include "DefineVarCommand.h"
-#include "globals.h"
 
+DefineVarCommand::DefineVarCommand(){}
 /*
  * DefineVarCommand::execute(string str) will make a new Var Object and will insert it to our map.
  */

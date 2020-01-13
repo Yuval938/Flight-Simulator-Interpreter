@@ -5,10 +5,10 @@
 #ifndef EX3_4_IFCOMMAND_H
 #define EX3_4_IFCOMMAND_H
 
+#include <algorithm>
 #include "ConditionParser.h"
-
 using namespace std;
-class IfCommand : public ConditionParser{
+class IfCommand: public ConditionParser {
 public:
     IfCommand() {}
     int execute(string str);

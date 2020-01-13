@@ -20,9 +20,9 @@ public:
 
     Var() {};
 
-    Var(string type, string sim) {
-        this->setType(type);
-        this->setSim(sim);
+    Var(string type1, string sim1) {
+        this->setType(type1);
+        this->setSim(sim1);
     }
 
     string getSim() {
@@ -41,12 +41,12 @@ public:
         this->value = newValue;
     }
 
-    void setType(string type) {
-        this->type = type;
+    void setType(string type1) {
+        this->type = type1;
     }
 
-    void setSim(string sim) {
-        this->sim = sim;
+    void setSim(string sim1) {
+        this->sim = sim1;
     }
 
 };

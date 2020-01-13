@@ -3,8 +3,6 @@
 //
 
 #include "SleepCommand.h"
-#include <thread>
-#include <chrono>
 
 int SleepCommand::execute(string str) {
     // cout << "sleep for this time:     " << str << endl;
@@ -16,4 +14,5 @@ int SleepCommand::execute(string str) {
     int ms = (i->interpret(str))->calculate();
     cout << "sleeps for "<< ms  << " milliseconds"<< endl;
     std::this_thread::sleep_for(std::chrono::milliseconds(ms));
+    return 0;
 }

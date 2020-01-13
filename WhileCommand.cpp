@@ -56,23 +56,29 @@ int WhileCommand::execute(string str) {
     pos = conditionLine.find(" "); // getting the second space
     string operand = conditionLine.substr(0, pos); // getting the arrow
     conditionLine = conditionLine.substr(pos + 1); // now we got left with: sim("/sim/time/warp") endl
-    pos = conditionLine.find(" "); // getting the third space
+    pos = conditionLine.find("{"); // getting the third space
     string rightSide = conditionLine.substr(0, pos);
 
-    int number;
+    replaceAll(rightSide, " ", "");
+    replaceAll(leftSide, " ", "");
+    string numberString;
     string var;
-    if (is_number(leftSide)) {
-        number = std::stoi(leftSide);
+    if (leftSide.at(0) >= '0' && leftSide.at(0) <= '9') {
+        numberString = leftSide;
         var = rightSide;
-    } else if (is_number(rightSide)) {
-        number = std::stoi(rightSide);
+    } else if (rightSide.at(0) >= '0' && rightSide.at(0) <= '9') {
+        numberString = rightSide;
         var = leftSide;
     } else {
         cout << "error, one of the sides isnt a number" << endl;
     }
 
-    i = 0;
+    Interpreter *in = new Interpreter();
+    Expression *e;
+    e = in->interpret(numberString);
 
+    double number = e->calculate();
+    // SymbolTable[var].setValue(1);
     int contentSize = content.size();
     if (operand.compare("<=") == 0) {
         while (SymbolTable[var].getValue() <= number) {
@@ -80,8 +86,8 @@ int WhileCommand::execute(string str) {
             while (i < contentSize) {
                 i = executeFromContent(content, i, CommandList) + 1;
             }
-          //  cout << "ddd" << endl;
-          // SymbolTable["rpm"].setValue(SymbolTable["rpm"].getValue() + 1);
+            //cout << "ddd" << endl;
+            //SymbolTable["rpm"].setValue(SymbolTable["rpm"].getValue() + 1);
         }
     } else if (operand.compare("<") == 0) {
         while (SymbolTable[var].getValue() < number) {
@@ -89,7 +95,8 @@ int WhileCommand::execute(string str) {
             while (i < contentSize) {
                 i = executeFromContent(content, i, CommandList) + 1;
             }
-           // SymbolTable["alt"].setValue(SymbolTable["alt"].getValue() + 20);
+            //cout << "fff" << endl;
+            // SymbolTable["alt"].setValue(SymbolTable["alt"].getValue() + 20);
         }
     } else if (operand.compare(">=") == 0) {
         while (SymbolTable[var].getValue() >= number) {
@@ -106,7 +113,7 @@ int WhileCommand::execute(string str) {
             }
         }
     } else if (operand.compare("==") == 0) {
-        while (SymbolTable[var].getValue() == number) {
+        while (SymbolTable[var].getValue() - number < 0.00000001) {
             i = 0;
             while (i < contentSize) {
                 i = executeFromContent(content, i, CommandList) + 1;

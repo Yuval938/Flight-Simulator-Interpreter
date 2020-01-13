@@ -1,23 +1,24 @@
-#include <fstream>
 #include <vector>
 #include <map>
-#include "Command.h"
-#include "DefineVarCommand.cpp"
+#include "DefineVarCommand.h"
+//#include "DefineVarCommand.cpp"
 #include "WhileCommand.h"
-#include "WhileCommand.cpp"
+//#include "WhileCommand.cpp"
+#include "ex1.h"
 #include "OpenDataServerCommand.h"
-#include "OpenDataServerCommand.cpp"
+//#include "OpenDataServerCommand.cpp"
 #include "ConnectControlClientCommand.h"
-#include "ConnectControlClientCommand.cpp"
+//#include "ConnectControlClientCommand.cpp"
 #include "PrintCommand.h"
-#include "PrintCommand.cpp"
+//#include "PrintCommand.cpp"
 #include "SleepCommand.h"
-#include "SleepCommand.cpp"
+//#include "SleepCommand.cpp"
+#include "IfCommand.h"
 #include "globals.h"
-#include "globals.cpp"
-#include "IfCommand.h"
-#include "IfCommand.cpp"
-#include "IfCommand.h"
+//#include "IfCommand.cpp"
+//#include "globals.cpp"
+
+
 
 using namespace std;
 

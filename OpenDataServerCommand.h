@@ -2,15 +2,17 @@
 // Created by yuval on 21/12/2019.
 //
 
-#ifndef EX3_OPENDATASERVERCOMMAND_H
+#ifndef UNTITLED13_OPENDATASERVERCOMMAND_H
 #define EX3_OPENDATASERVERCOMMAND_H
 
-#include "Command.h"
 #include <thread>
 #include <sys/socket.h>
 #include <string>
 #include <unistd.h>
 #include <netinet/in.h>
+#include <sstream>
+#include "globals.h"
+#include "ex1.h"
 
 class OpenDataServerCommand : public Command {
 protected:

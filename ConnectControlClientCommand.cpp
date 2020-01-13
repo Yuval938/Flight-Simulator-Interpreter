@@ -3,6 +3,11 @@
 //
 
 #include "ConnectControlClientCommand.h"
+#include <sys/socket.h>
+#include <string>
+#include <unistd.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 
 /*
  * execute command in this object will break down the string to a string(ip) and an int (port) , the port is calculated
@@ -22,6 +27,7 @@ int ConnectControlClientCommand::execute(string str) {
     port = port.substr(pos2 + 1);
     pos = port.find(')');
     port = port.substr(0, pos);
+    replaceAll(port, " ", "");
     Interpreter *i = new Interpreter();
     int portAsInt = (i->interpret(port))->calculate();
     threads[1] = thread(&ConnectControlClientCommand::RunClient, this, ip, portAsInt);
@@ -30,7 +36,7 @@ int ConnectControlClientCommand::execute(string str) {
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
     }
 
-
+    return 0;
 }
 
 /*
